@@ -1,129 +1,192 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# X Fuzzy Set
+import numpy as np
+import matplotlib.pyplot as plt
+import skfuzzy as fuzz
+x= np.arange(0, 5, 0.001)
+mfx= fuzz.trapmf(x, [0, 1, 2.25, 4])
+plt.title("x fuzzy set")
+plt.grid()
+plt.plot(mfx)
+plt.savefig("x fuzzy set")
+plt.show()
 
-# C extensions
-*.so
+# Y Fuzzy Set
+y= np.arange(0, 5, 0.001)
+mfy= fuzz.trapmf(y, [2, 2.5, 3, 4.5])
+plt.title("y fuzzy set")
+plt.grid()
+plt.plot(mfy)
+plt.savefig("y fuzzy set")
+plt.show()
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+# T-norm MinimumZadeh
+def cartprod(x, y):
+    return np.fmin(mfx, mfy)
+Tnorm_min = cartprod(x, y)
+plt.plot(Tnorm_min)
+plt.title("Tnorm Minimum Zade")
+plt.grid()
+plt.savefig("Tnorm Minimum Zade")
+plt.show()
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+# T-norm Algebraic Product
+def cartprod(x, y):
+    return mfx*mfy
+Tnorm_prod = cartprod(x, y)
+plt.plot(Tnorm_prod)
+plt.title("Tnorm Algebratic Product")
+plt.grid()
+plt.savefig("Tnorm Algebratic Product")
+plt.show()
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+# T-norm Bounded
+Bounded = mfx+mfy-1
+Tnorm_Bound = np.maximum(0 ,Bounded)
+plt.plot(Tnorm_Bound)
+plt.title("Tnorm Bounded")
+plt.grid()
+plt.savefig("Tnorm Bounded")
+plt.show()
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
+# T-norm Drastic
+def Drastic_Product(mfx, mfy):
+    if mfy == 1:
+        return mfx
+    elif mfx == 1:
+        return mfy
+    else:
+        return 0
+    
+vDrastic_Product = np.vectorize(Drastic_Product)
+Tnorm_DP = vDrastic_Product(mfx, mfy)
+plt.grid()
+plt.plot(Tnorm_DP)
+plt.title("Tnorm Drastic")
+plt.savefig("Tnorm Drastic")
+plt.show()
 
-# Translations
-*.mo
-*.pot
+# T-norm Yager(p=1)
+Tnorm_Yager1 = 1 - (np.minimum(1, ((1-mfx) ** 1 + (1-mfy) ** 1)**(1/1)))
+plt.plot(Tnorm_Yager1)
+plt.title("Tnorm Yager1")
+plt.grid()
+plt.savefig("Tnorm Yager1")
+plt.show()
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+# T-norm Yager(p=2)
+Tnorm_Yager2 = 1 - (np.minimum(1, ((1-mfx) ** 2 + (1-mfy) ** 2)**(1/2)))
+plt.plot(Tnorm_Yager2)
+plt.title("Tnorm Yager2")
+plt.grid()
+plt.savefig("Tnorm Yager2")
+plt.show()
 
-# Flask stuff:
-instance/
-.webassets-cache
+# T-norm Yager(p=3)
+Tnorm_Yager3 = 1 - (np.minimum(1, ((1-mfx) ** 3 + (1-mfy) ** 3)**(1/3)))
+plt.plot(Tnorm_Yager3)
+plt.title("Tnorm Yager3")
+plt.grid()
+plt.savefig("Tnorm Yager3")
+plt.show()
 
-# Scrapy stuff:
-.scrapy
+# T-norm Yager(p=10)
+Tnorm_Yager10 = 1 - (np.minimum(1, ((1-mfx) ** 10 + (1-mfy) ** 10)**(1/10)))
+plt.plot(Tnorm_Yager10)
+plt.title("Tnorm Yager10")
+plt.grid()
+plt.savefig("Tnorm Yager10")
+plt.show()
 
-# Sphinx documentation
-docs/_build/
+# T-norm Yager(p=oo)
+Tnorm_Yagerinf = 1 - (np.minimum(1, ((1-mfx) ** np.inf + (1-mfy) ** np.inf)**(1/np.inf)))
+plt.plot(Tnorm_Yagerinf)
+plt.title("Tnorm Yager inf")
+plt.grid()
+plt.savefig("Tnorm Yager inf")
+plt.show()
 
-# PyBuilder
-target/
+# S-norm MaximumZadeh
+def cartprod(x, y):
+    return np.fmax(mfx, mfy)
+Snorm_max = cartprod(x, y)
+plt.plot(Snorm_max)
+plt.title("Snorm Maximum Zade")
+plt.grid()
+plt.savefig("Snorm Maximum Zade")
+plt.show()
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# S-norm Algebraic Product
+def cartprod(x, y):
+    return mfx+mfy-mfx*mfy
+Snorm_prod = cartprod(x, y)
+plt.plot(Snorm_prod)
+plt.title("Snorm Algebratic Product")
+plt.grid()
+plt.savefig("Snorm Algebratic Product")
+plt.show()
 
-# IPython
-profile_default/
-ipython_config.py
+# S-norm Bounded
+Bounded = mfx+mfy
+Snorm_Bound = np.minimum(1 ,Bounded)
+plt.plot(Snorm_Bound)
+plt.title("Snorm Bounded")
+plt.grid()
+plt.savefig("Snorm Bounded")
+plt.show()
 
-# pyenv
-.python-version
+# S-norm Drastic
+def Drastic_Sum(mfx, mfy):
+    if mfy == 0:
+        return mfx
+    elif mfx == 0:
+        return mfy
+    else:
+        return 1
+    
+vDrastic_Sum = np.vectorize(Drastic_Sum)
+Snorm_DS = vDrastic_Sum(mfx, mfy)
+plt.grid()
+plt.plot(Snorm_DS)
+plt.title("Snorm Drastic")
+plt.savefig("Snorm Drastic")
+plt.show()
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
+# S-norm Yager(p=1)
+Snorm_Yager1 = np.minimum(1, ((mfx) ** 1 + (mfy) ** 1)**(1/1))
+plt.plot(Snorm_Yager1)
+plt.title("Snorm Yager1")
+plt.grid()
+plt.savefig("Snorm Yager1")
+plt.show()
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
+# S-norm Yager(p=2)
+Snorm_Yager2 = np.minimum(1, ((mfx) ** 2 + (mfy) ** 2)**(1/2))
+plt.plot(Snorm_Yager2)
+plt.title("Snorm Yager2")
+plt.grid()
+plt.savefig("Snorm Yager2")
+plt.show()
 
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
+# S-norm Yager(p=3)
+Snorm_Yager3 = np.minimum(1, ((mfx) ** 3 + (mfy) ** 3)**(1/3))
+plt.plot(Snorm_Yager3)
+plt.title("Snorm Yager3")
+plt.grid()
+plt.savefig("Snorm Yager3")
+plt.show()
 
-# SageMath parsed files
-*.sage.py
+# S-norm Yager(p=10)
+Snorm_Yager10 = np.minimum(1, ((mfx) ** 10 + (mfy) ** 10)**(1/10))
+plt.plot(Snorm_Yager10)
+plt.title("Snorm Yager10")
+plt.grid()
+plt.savefig("Snorm Yager10")
+plt.show()
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
+# S-norm Yager(p=oo)
+Snorm_Yagerinf = np.minimum(1, ((mfx) ** np.inf + (mfy) ** np.inf)**(1/np.inf))
+plt.plot(Snorm_Yagerinf)
+plt.title("Snorm Yager inf")
+plt.grid()
+plt.savefig("Snorm Yager inf")
+plt.show()
